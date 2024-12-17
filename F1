@@ -1,0 +1,116 @@
+def input_match(D_driver,D_Dpoints,D_Tpoints):
+    points = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    a=input("Enter the GRAND PRIX RESULT file name: ")
+    while(True):
+          drive_pole=input("Enter the driver name with FASTEST LAP: ")
+          if drive_pole in D_Dpoints:
+             D_Dpoints[drive_pole]+=1
+             break
+          else:
+             print("**INVALID NAME**")
+    try:
+
+        f1 = open(a)
+        l1=[]
+        #f1=['MaxVerstappen','SergioPerez', 'LewisHamilton','GeorgeRussell','LoganSargeant', 'AlexAlbon','DanielRicciardo', 'YukiTsunoda', 'LandoNorris', 'OscarPiastri', 'PierreGasly', 'EstebanOcon','FernandoAlonso', 'LanceStroll', 'CharlesLeclerc' , 'CarlosSainz', 'KevinMagnussen', 'NicoHulkenberg','ZhouGuanyu', 'ValtteriBottas']
+        for line in f1:
+          l1.append(line) #driver names
+
+        for i in range(len(l1)):
+            l1[i]=l1[i].replace('\n','')
+            D_Dpoints[l1[i]]+=points[i]
+
+        for team,points in D_Tpoints.items():
+             D_Tpoints[team]=D_Dpoints[D_driver[team][0]]+D_Dpoints[D_driver[team][1]]
+        print("**Score successfully updated**")
+        return D_Dpoints,D_Tpoints
+    except:
+        print("**unable to open file**")
+
+
+
+
+def sort_dict(D_Tpoints,D_Dpoints):
+    l1=list()
+    for key,val in D_Tpoints.items():
+      l1.append((val,key))
+    l1.sort(reverse=True)
+    l3=list()
+    for key,val in l1:
+      l3.append((val,key))
+
+    l2=list()
+    for key,val in D_Dpoints.items():
+      l2.append((val,key))
+    l2.sort(reverse=True)
+    l4=list()
+    for key,val in l2:
+      l4.append((val,key))
+    return l3,l4
+
+D_driver={'RedBull':['MaxVerstappen','SergioPerez'], 'Mercedes':['LewisHamilton','GeorgeRussell'],
+          'Williams':['LoganSargeant','AlexAlbon'], 'AlphaTauri':['DanielRicciardo','YukiTsunoda'],
+          'McLaren':['LandoNorris','OscarPiastri'], 'Alpine':['PierreGasly','EstebanOcon'],
+          'AstonMartin':['FernandoAlonso','LanceStroll'], 'Ferrari':['CharlesLeclerc','CarlosSainz'],
+          'Haas':['KevinMagnussen','NicoHulkenberg'], 'AlfaRomeo':['ZhouGuanyu','ValtteriBottas']}
+
+D_Tpoints={'RedBull':0, 'Mercedes':0, 'Williams':0, 'AlphaTauri':0,'McLaren':0,
+          'Alpine':0, 'AstonMartin':0, 'Ferrari':0, 'Haas':0, 'AlfaRomeo':0}
+
+D_Dpoints={'MaxVerstappen':0, 'SergioPerez':0, 'LewisHamilton':0, 'GeorgeRussell':0, 'LoganSargeant':0, 'AlexAlbon':0,
+           'DanielRicciardo':0, 'YukiTsunoda':0, 'LandoNorris':0, 'OscarPiastri':0, 'PierreGasly':0, 'EstebanOcon':0,
+           'FernandoAlonso':0, 'LanceStroll':0, 'CharlesLeclerc':0 , 'CarlosSainz':0, 'KevinMagnussen':0, 'NicoHulkenberg':0,
+           'ZhouGuanyu':0, 'ValtteriBottas':0}
+
+print("WELCOME TO F1 SCORE DIRECTORY \t")
+print("Enter a number according to your needs-\n 1: To input new race scores\n 2: To view current score standing\n 3: To view final score standing\n 4: Exit")
+while(True):
+  parameter=int(input("ENTER THE NUMBER: "))
+  match parameter:
+
+      case 1  :
+        D_Dpoints,D_Tpoints=input_match(D_driver,D_Dpoints,D_Tpoints)
+
+
+
+      case 2 :
+        l1,l2=sort_dict(D_Tpoints,D_Dpoints)
+
+        print("The current TOP 3 TEAMS are as follows:\n")
+        print("Pos1: %s\n Pos2: %s\n Pos2: %s\n"%(l1[0],l1[1],l1[2]))
+        print("The current TOP 3 DRIVERS are as follows:\n")
+        print("Pos1: %s\n Pos2: %s\n Pos2: %s\n"%(l2[0],l2[1],l2[2]))
+
+        x=int(input("ENTER-\n 1:To expand data\n 2:To continue\n"))
+        if (x==1):
+          print("TEAM STANDING: ",l1)
+          print("DRIVER STANDING: ",l2)
+        else:
+          continue
+
+
+      case 3 :
+        l1,l2=sort_dict(D_Tpoints,D_Dpoints)
+
+        print("***",l2[0][0]," wins the Formula 1 World championship with ",D_Dpoints[l2[0][0]]," points***\n")
+        print("***",l2[1][0]," is the Formula 1 runner up with ",D_Dpoints[l2[1][0]]," points***\n")
+        print("The current TOP 3 DRIVERS are as follows: ")
+        print(" Pos1: %s\n Pos2: %s\n Pos2: %s\n\n"%(l2[0],l2[1],l2[2]))
+4
+
+        print("***",l1[0][0]," wins the Formula 1 CONSTRUCTERS with ",D_Tpoints[l1[0][0]]," points***\n")
+        print("***",l1[1][0]," is the Formula 1 runner-up CONSTRUCTERS with ",D_Tpoints[l1[1][0]]," points***\n")
+        print("The  TOP 3 TEAMS are as follows:")
+        print(" Pos1: %s\n Pos2: %s\n Pos2: %s\n"%(l1[0],l1[1],l1[2]))
+
+
+        x=int(input("ENTER-\n 1:To expand data\n 2:To continue\n"))
+        if (x==1):
+            print("TEAM STANDING: ",l1)
+            print("DRIVER STANDING: ",l2)
+        else:
+          continue
+
+      case 4  :
+        print("END OF PROGRAMME")
+        break
